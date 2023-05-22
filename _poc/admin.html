@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,12 +9,19 @@
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.css" />
 </head>
+
 <body class="position-absolute d-flex flex-column vw-100 vh-100 overflow-hidden">
     <header class="d-flex w-100 border-bottom py-2">
-        <a href="/" class="nav-brand flex-shrink-0 text-decoration-none d-flex align-items-center justify-content-center"
-            style="width: 300px;">
+        <a href="/"
+            class="nav-brand d-none flex-shrink-0 text-decoration-none d-flex ms-3 d-md-flex flex-column flex-md-row align-items-center"
+            style="width: 280px;">
             <img src="https://bams.ortadeltech.com/assets/images/pdp_logo.png" width="75" alt="logo" />
-            <span class="display-5 ps-3 text-uppercase" style="margin-top: -5px;">Brand</span>
+            <span class="display-6 ps-4 text-uppercase" style="margin-top: -5px;">BAMS</span>
+        </a>
+        <a href="/"
+            class="nav-brand d-md-none flex-shrink-0 text-decoration-none d-flex flex-column flex-md-row align-items-center justify-content-center"
+            style="width: 100px;">
+            <img src="https://bams.ortadeltech.com/assets/images/pdp_logo.png" width="75" alt="logo" />
         </a>
         <nav class="navbar flex-grow-1">
             <ul class="nav w-100 align-items-center">
@@ -31,6 +39,17 @@
                         <img class="rounded-circle shadow-sm" src="https://bams.ortadeltech.com/assets/images/profile.png"
                             width="50" alt="profile image link">
                     </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">Separated link</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
                 </li>
             </ul>
         </nav>
@@ -41,7 +60,8 @@
             <div class="content" style="width: 300px;">
                 <!-- Profile -->
                 <div class="profile d-flex align-items-center border-bottom">
-                    <img class="rounded-3 m-3 shadow-sm" src="https://bams.ortadeltech.com/assets/images/profile.png" width="80" alt="profile image">
+                    <img class="rounded-3 m-3 shadow-sm" src="https://bams.ortadeltech.com/assets/images/profile.png"
+                        width="80" alt="profile image">
                     <span class="ms-2">
                         <b class="name lead lh-sm">Firstname M.I. Lastname</b>
                         <p class="title m-0">Title</p>
@@ -60,37 +80,47 @@
         </aside>
 
         <!-- Content -->
-        <div class="content flex-grow-1 overflow-y-auto p-5">
-            <div class="card">
+        <div class="content flex-grow-1 overflow-y-auto p-3 p-md-4 px-lg-5 mx-lg-5">
+            <div class="card" style="min-width: 280px;">
                 <div class="card-body">
                     <h2>Residents Profile</h2>
                     <hr />
                     <form class="d-flex rounded-3 border overflow-hidden">
-                        <select name="" id="" class="form-control border-0 border-end rounded-0" style="width: 180px;">
-                            <option value="">Select Filter</option>
-                            <option value="" selected>Fullname</option>
-                            <option value=""></option>
+                        <select id="filter" class="form-control border-0 border-end rounded-0" style="width: 140px;">
+                            <option value="">Select Filter..</option>
+                            <option value="id">ID</option>
+                            <option value="fullname" selected>Fullname</option>
+                            <option value="age">Age</option>
+                            <option value="gender">Gender</option>
+                            <option value="profession">Profession</option>
+                            <option value="status">Status</option>
                         </select>
-                        <input id="search" type="search" class="form-control border-0 rounded-0" placeholder="Search" oninput="searchTable()">
+                        <input id="search" type="search" class="form-control border-0 rounded-0" placeholder="Search"
+                            oninput="searchTable()">
                         <button class="btn rounded-0 btn-link"><i class="fa fa-search"></i></button>
-                        <button class="btn rounded-0 btn-success flex-shrink-0"><i class="fa fa-plus"></i> &nbsp; Add Resident</button>
+                        <button class="btn rounded-0 btn-success flex-shrink-0" type="button" data-bs-toggle="modal"
+                            data-bs-target="#modalAddPerson">
+                            <i class="fa fa-plus"></i>
+                            <span class="d-none d-md-inline"> &nbsp; Person</span>
+                        </button>
                     </form>
-                    <table class="table table-hover align-middle mt-3">
-                        <thead>
-                          <tr>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mt-3">
+                            <thead>
+                                <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Fullname</th>
+                                    <th scope="col">Fullname</th>
                             <th scope="col">Age</th>
-                            <th scope="col" class="text-center" style="width: 0;">Actions</th>
-                          </tr>
-                        </thead>
-                        <tbody id="peopleTable">
+                                    <th scope="col" class="text-center" style="width: 0;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="peopleTable">
                           
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
@@ -109,13 +139,13 @@
             editPerson: (index, data) => {
                 data.fullname = people.getFullname(data.firstname, data.lastname);
                 people.data[index] = data;
-            },  
+            },
             deletePerson: (index) => {
-                people.data.splice(index, 1);
+                    people.data.splice(index, 1);
             },
             getFullname: (firstname, lastname) => {
                 return firstname + " " + lastname;
-            } 
+            }
         }
         console.log('people', people.data);
         people.addPerson("John", "Doe", 21);
@@ -148,17 +178,17 @@
             let html = "";
             let index = 0;
             for(person of filteredPeople) {
-                html += `<tr>
-                    <th scope="row">${index}</th>
+                    html += `<tr>
+                        <th scope="row">${index}</th>
                     <td>${person.fullname}</td>
                     <td>${person.age}</td>
                     <td class="d-flex">
                         <button class="btn text-warning"><i class="fa fa-pencil"></i></button>
                         <button class="btn text-danger" onclick="people.deletePerson(${index}); renderTable();"><i class="fa fa-trash"></i></button>
-                    </td>
-                </tr>`;
+                        </td>
+                    </tr>`;
                 index ++;
-            }
+                }
             peopleTable.innerHTML = html;
         }
         renderTable();
