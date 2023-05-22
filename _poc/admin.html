@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.css" />
+</head>
+<body class="position-absolute d-flex flex-column vw-100 vh-100 overflow-hidden">
+    <header class="d-flex w-100 border-bottom py-2">
+        <a href="/" class="nav-brand flex-shrink-0 text-decoration-none d-flex align-items-center justify-content-center"
+            style="width: 300px;">
+            <img src="https://bams.ortadeltech.com/assets/images/pdp_logo.png" width="75" alt="logo" />
+            <span class="display-5 ps-3 text-uppercase" style="margin-top: -5px;">Brand</span>
+        </a>
+        <nav class="navbar flex-grow-1">
+            <ul class="nav w-100 align-items-center">
+                <li class="nav-item">
+                    <a class="btn btn-link btn-lg" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar"
+                        aria-expanded="true" aria-controls="sidebar">
+                        <i class="fa fa-bars"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <h1 class="h3">Page Title</h1>
+                </li>
+                <li class="ms-auto nav-item">
+                    <a class="nav-link" href="#">
+                        <img class="rounded-circle shadow-sm" src="https://bams.ortadeltech.com/assets/images/profile.png"
+                            width="50" alt="profile image link">
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <main class="d-flex flex-grow-1 overflow-hidden">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="collapse collapse-horizontal show border-end h-100">
+            <div class="content" style="width: 300px;">
+                <!-- Profile -->
+                <div class="profile d-flex align-items-center border-bottom">
+                    <img class="rounded-3 m-3 shadow-sm" src="https://bams.ortadeltech.com/assets/images/profile.png" width="80" alt="profile image">
+                    <span class="ms-2">
+                        <b class="name lead lh-sm">Firstname M.I. Lastname</b>
+                        <p class="title m-0">Title</p>
+                    </span>
+                </div>
+                <nav class="list-group">
+                    <ul class="nav">
+                        <li class="nav-item w-100">
+                            <a href="#" class="nav-link active p-3 border-bottom" aria-current="true">
+                                <i class="fa fa-users px-2"></i> &nbsp;Residents Profile
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Content -->
+        <div class="content flex-grow-1 overflow-y-auto p-5">
+            <div class="card">
+                <div class="card-body">
+                    <h2>Residents Profile</h2>
+                    <hr />
+                    <form class="d-flex rounded-3 border overflow-hidden">
+                        <select name="" id="" class="form-control border-0 border-end rounded-0" style="width: 180px;">
+                            <option value="">Select Filter</option>
+                            <option value="" selected>Fullname</option>
+                            <option value=""></option>
+                        </select>
+                        <input id="search" type="search" class="form-control border-0 rounded-0" placeholder="Search" oninput="searchTable()">
+                        <button class="btn rounded-0 btn-link"><i class="fa fa-search"></i></button>
+                        <button class="btn rounded-0 btn-success flex-shrink-0"><i class="fa fa-plus"></i> &nbsp; Add Resident</button>
+                    </form>
+                    <table class="table table-hover align-middle mt-3">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Fullname</th>
+                            <th scope="col">Age</th>
+                            <th scope="col" class="text-center" style="width: 0;">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody id="peopleTable">
+                          
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
+    <script>
+        const people = {
+            data: [],
+            addPerson: (firstname, lastname, age) => {
+                people.data.push({
+                    firstname: firstname,
+                    lastname: lastname,
+                    fullname: people.getFullname(firstname, lastname),
+                    age: age
+                });
+            },
+            editPerson: (index, data) => {
+                data.fullname = people.getFullname(data.firstname, data.lastname);
+                people.data[index] = data;
+            },  
+            deletePerson: (index) => {
+                people.data.splice(index, 1);
+            },
+            getFullname: (firstname, lastname) => {
+                return firstname + " " + lastname;
+            } 
+        }
+        console.log('people', people.data);
+        people.addPerson("John", "Doe", 21);
+        console.log('add person', people.data);
+        people.editPerson(0, {
+            "firstname": "Jane",
+            "lastname": "Doe",
+            "age": 21
+        });
+        console.log('edit person', people.data);
+        // people.deletePerson(0);
+        // console.log('delete person', people.data);
+        people.addPerson("John", "Doe", 21);
+        people.addPerson("John", "Doe", 21);
+        people.addPerson("John", "Doe", 21);
+        people.addPerson("John", "Doe", 21);
+        people.addPerson("John", "Doe", 21);
+        people.addPerson("John", "Doe", 21);
+        people.addPerson("John", "Doe", 21);
+        people.addPerson("John", "Doe", 21);
+        people.addPerson("John", "Doe", 21);
+        people.addPerson("John", "Doe", 21);
+        people.addPerson("John", "Doe", 21);
+        people.addPerson("John", "Doe", 21);
+        people.addPerson("John", "Doe", 21);
+        console.log('add person', people.data);
+        let filteredPeople = people.data;
+
+        const renderTable = () => {
+            let html = "";
+            let index = 0;
+            for(person of filteredPeople) {
+                html += `<tr>
+                    <th scope="row">${index}</th>
+                    <td>${person.fullname}</td>
+                    <td>${person.age}</td>
+                    <td class="d-flex">
+                        <button class="btn text-warning"><i class="fa fa-pencil"></i></button>
+                        <button class="btn text-danger" onclick="people.deletePerson(${index}); renderTable();"><i class="fa fa-trash"></i></button>
+                    </td>
+                </tr>`;
+                index ++;
+            }
+            peopleTable.innerHTML = html;
+        }
+        renderTable();
+        const searchTable = () => {
+            let filter = search.value;
+            if(filter) {
+                filteredPeople = people.data.filter(person => {
+                    return person.fullname.toLowerCase().includes(filter.toLowerCase());
+                });
+                renderTable();
+            }
+            else
+                filteredPeople = people.data;
+        }
+    </script>
+</body>
+
+</html>
