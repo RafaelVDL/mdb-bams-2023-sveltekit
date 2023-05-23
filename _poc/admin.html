@@ -221,10 +221,12 @@
         }
         renderTable();
         const searchTable = () => {
-            let filter = search.value;
-            if(filter) {
+            let field = filter.value;
+            let keyword = search.value;
+            logger('searchTable', field, keyword);
+            if (keyword) {
                 filteredPeople = people.data.filter(person => {
-                    return person.fullname.toLowerCase().includes(filter.toLowerCase());
+                    return person[field].toLowerCase().includes(keyword.toLowerCase());
                 });
                 renderTable();
             }
