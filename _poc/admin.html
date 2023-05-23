@@ -126,6 +126,12 @@
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
     <script>
+        // Setup
+        let dev = true;
+        const logger = (...params) => {
+            if (dev) console.log(...params);
+        }
+        
         const people = {
             data: [],
             addPerson: (firstname, lastname, age) => {
@@ -172,23 +178,40 @@
         people.addPerson("John", "Doe", 21);
         people.addPerson("John", "Doe", 21);
         console.log('add person', people.data);
-        let filteredPeople = people.data;
-
+         // People Table View
+         let filteredPeople = people.data;
         const renderTable = () => {
+            logger('renderTable', filteredPeople, people.data);
             let html = "";
             let index = 0;
-            for(person of filteredPeople) {
+
+            if (filteredPeople.length) {
+                for (person of filteredPeople) {
                     html += `<tr>
                         <th scope="row">${index}</th>
-                    <td>${person.fullname}</td>
-                    <td>${person.age}</td>
-                    <td class="d-flex">
-                        <button class="btn text-warning"><i class="fa fa-pencil"></i></button>
-                        <button class="btn text-danger" onclick="people.deletePerson(${index}); renderTable();"><i class="fa fa-trash"></i></button>
+                        <td class="text-nowrap text-center">
+                            <img class="rounded-circle shadow-sm" src="${person.photo}" width="35" alt="${person.fullname} photo" />
+                        </td>
+                        <td class="text-nowrap">${person.fullname}</td>
+                        <td class="text-nowrap">${person.profession}</td>
+                        <td class="text-nowrap d-none d-md-table-cell">${person.age}</td>
+                        <td class="text-nowrap d-none d-md-table-cell">${person.gender}</td>
+                        <td class="text-nowrap">${person.status}</td>
+                        <td class="text-nowrap">
+                            <span class="d-flex">
+                                <button class="btn text-warning" onclick="setUpdatePerson(${index});">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                                <button class="btn text-danger" onclick="people.deletePerson(${index}); renderTable();">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </span>
                         </td>
                     </tr>`;
-                index ++;
+                    index++;
                 }
+            } else html = "<tr><td colspan='100' class='text-center'>No Record Found!</td></tr>";
+
             peopleTable.innerHTML = html;
         }
         renderTable();
@@ -203,6 +226,7 @@
             else
                 filteredPeople = people.data;
         }
+
     </script>
 </body>
 
