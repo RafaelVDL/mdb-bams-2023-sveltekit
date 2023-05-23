@@ -132,59 +132,53 @@
         crossorigin="anonymous"></script>
     <script>
         // Setup
-        let dev = true;
+        let dev = false;
         const logger = (...params) => {
             if (dev) console.log(...params);
         }
 
+        // People Controller
         const people = {
             data: [],
-            addPerson: (firstname, lastname, age) => {
+            addPerson: (data) => {
+                logger('addPerson', data);
                 people.data.push({
-                    firstname: firstname,
-                    lastname: lastname,
-                    fullname: people.getFullname(firstname, lastname),
-                    age: age
+                    photo: data.photo,
+                    firstname: data.firstname,
+                    middlename: data.middlename,
+                    lastname: data.lastname,
+                    profession: data.profession,
+                    gender: data.gender,
+                    birthdate: data.birthdate,
+                    status: data.status,
+                    fullname: people.getFullname(data.firstname, data.middlename, data.lastname),
+                    age: people.getAge(data.birthdate)
                 });
             },
-            editPerson: (index, data) => {
-                data.fullname = people.getFullname(data.firstname, data.lastname);
+            updatePerson: (index, data) => {
+                logger('editPerson', index, data);
+                data.fullname = people.getFullname(data.firstname, data.middlename, data.lastname);
+                data.age = people.getAge(data.birthdate)
                 people.data[index] = data;
             },
             deletePerson: (index) => {
+                if (confirm('Are you sure?')) {
+                    logger('deletePerson', index);
                     people.data.splice(index, 1);
+                }
             },
-            getFullname: (firstname, lastname) => {
-                return firstname + " " + lastname;
+            getFullname: (firstname, middlename, lastname) => {
+                logger('getFullname', firstname, middlename, lastname);
+                return `${firstname} ${middlename[0]}. ${lastname}`;
+            },
+            getAge: (birthdate) => {
+                logger('getAge', birthdate);
+                return new Number((new Date().getTime() - new Date(birthdate).getTime()) / 31536000000).toFixed(0);
             }
         }
-        console.log('people', people.data);
-        people.addPerson("John", "Doe", 21);
-        console.log('add person', people.data);
-        people.editPerson(0, {
-            "firstname": "Jane",
-            "lastname": "Doe",
-            "age": 21
-        });
-        console.log('edit person', people.data);
-        // people.deletePerson(0);
-        // console.log('delete person', people.data);
-        people.addPerson("John", "Doe", 21);
-        people.addPerson("John", "Doe", 21);
-        people.addPerson("John", "Doe", 21);
-        people.addPerson("John", "Doe", 21);
-        people.addPerson("John", "Doe", 21);
-        people.addPerson("John", "Doe", 21);
-        people.addPerson("John", "Doe", 21);
-        people.addPerson("John", "Doe", 21);
-        people.addPerson("John", "Doe", 21);
-        people.addPerson("John", "Doe", 21);
-        people.addPerson("John", "Doe", 21);
-        people.addPerson("John", "Doe", 21);
-        people.addPerson("John", "Doe", 21);
-        console.log('add person', people.data);
-         // People Table View
-         let filteredPeople = people.data;
+        
+        // People Table View
+        let filteredPeople = people.data;
         const renderTable = () => {
             logger('renderTable', filteredPeople, people.data);
             let html = "";
@@ -232,6 +226,12 @@
             }
             else
                 filteredPeople = people.data;
+        }
+        
+        // People Test
+        if (dev) {
+            logger('People: ', people.data);
+            people.addPerson({ photo: "https://bams.ortadeltech.com/assets/images/profile.png", firstname: "John", middlename: "Dee", lastname: "Doe", gender: "Male", birthdate: new Date('1985-10-01').toISOString().split('T')[0], profession: "Sr. Programmer", status: "Active" })
         }
 
     </script>
