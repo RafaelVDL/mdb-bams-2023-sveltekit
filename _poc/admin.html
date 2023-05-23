@@ -126,82 +126,56 @@
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
     <script>
+        // Setup
+        let dev = false;
+        const logger = (...params) => {
+            if (dev) console.log(...params);
+        }
+
+        // People Controller
         const people = {
             data: [],
-            addPerson: (firstname, lastname, age) => {
+            addPerson: (data) => {
+                logger('addPerson', data);
                 people.data.push({
-                    firstname: firstname,
-                    lastname: lastname,
-                    fullname: people.getFullname(firstname, lastname),
-                    age: age
+                    photo: data.photo,
+                    firstname: data.firstname,
+                    middlename: data.middlename,
+                    lastname: data.lastname,
+                    profession: data.profession,
+                    gender: data.gender,
+                    birthdate: data.birthdate,
+                    status: data.status,
+                    fullname: people.getFullname(data.firstname, data.middlename, data.lastname),
+                    age: people.getAge(data.birthdate)
                 });
             },
-            editPerson: (index, data) => {
-                data.fullname = people.getFullname(data.firstname, data.lastname);
+            updatePerson: (index, data) => {
+                logger('editPerson', index, data);
+                data.fullname = people.getFullname(data.firstname, data.middlename, data.lastname);
+                data.age = people.getAge(data.birthdate)
                 people.data[index] = data;
             },
             deletePerson: (index) => {
+                if (confirm('Are you sure?')) {
+                    logger('deletePerson', index);
                     people.data.splice(index, 1);
-            },
-            getFullname: (firstname, lastname) => {
-                return firstname + " " + lastname;
-            }
-        }
-        console.log('people', people.data);
-        people.addPerson("John", "Doe", 21);
-        console.log('add person', people.data);
-        people.editPerson(0, {
-            "firstname": "Jane",
-            "lastname": "Doe",
-            "age": 21
-        });
-        console.log('edit person', people.data);
-        // people.deletePerson(0);
-        // console.log('delete person', people.data);
-        people.addPerson("John", "Doe", 21);
-        people.addPerson("John", "Doe", 21);
-        people.addPerson("John", "Doe", 21);
-        people.addPerson("John", "Doe", 21);
-        people.addPerson("John", "Doe", 21);
-        people.addPerson("John", "Doe", 21);
-        people.addPerson("John", "Doe", 21);
-        people.addPerson("John", "Doe", 21);
-        people.addPerson("John", "Doe", 21);
-        people.addPerson("John", "Doe", 21);
-        people.addPerson("John", "Doe", 21);
-        people.addPerson("John", "Doe", 21);
-        people.addPerson("John", "Doe", 21);
-        console.log('add person', people.data);
-        let filteredPeople = people.data;
-
-        const renderTable = () => {
-            let html = "";
-            let index = 0;
-            for(person of filteredPeople) {
-                    html += `<tr>
-                        <th scope="row">${index}</th>
-                    <td>${person.fullname}</td>
-                    <td>${person.age}</td>
-                    <td class="d-flex">
-                        <button class="btn text-warning"><i class="fa fa-pencil"></i></button>
-                        <button class="btn text-danger" onclick="people.deletePerson(${index}); renderTable();"><i class="fa fa-trash"></i></button>
-                        </td>
-                    </tr>`;
-                index ++;
                 }
-            peopleTable.innerHTML = html;
-        }
-        renderTable();
-        const searchTable = () => {
-            let filter = search.value;
-            if(filter) {
-                filteredPeople = people.data.filter(person => {
-                    return person.fullname.toLowerCase().includes(filter.toLowerCase());
-                });
-                renderTable();
+            },
+            getFullname: (firstname, middlename, lastname) => {
+                logger('getFullname', firstname, middlename, lastname);
+                return `${firstname} ${middlename[0]}. ${lastname}`;
+            },
+            getAge: (birthdate) => {
+                logger('getAge', birthdate);
+                return new Number((new Date().getTime() - new Date(birthdate).getTime()) / 31536000000).toFixed(0);
             }
-            else
-                filteredPeople = people.data;
+        }
+
+        // People Test
+        if (dev) {
+            logger('People: ', people.data);
+            people.addPerson({ photo: "https://bams.ortadeltech.com/assets/images/profile.png", firstname: "John", middlename: "Dee", lastname: "Doe", gender: "Male", birthdate: new Date('1985-10-01').toISOString().split('T')[0], profession: "Sr. Programmer", status: "Active" })
         }
     </script>
 </body>
