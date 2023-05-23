@@ -83,7 +83,7 @@
         <div class="content flex-grow-1 overflow-y-auto p-3 p-md-4 px-lg-5 mx-lg-5">
             <div class="card" style="min-width: 280px;">
                 <div class="card-body">
-                    <h2>Residents Profile</h2>
+                    <h2 class="h4">People List</h2>
                     <hr />
                     <form class="d-flex rounded-3 border overflow-hidden">
                         <select id="filter" class="form-control border-0 border-end rounded-0" style="width: 140px;">
@@ -108,19 +108,24 @@
                         <table class="table table-hover align-middle mt-3">
                             <thead>
                                 <tr>
-                            <th scope="col">#</th>
+                                    <th scope="col" style="width: 0;">#</th>
+                                    <th scope="col" style="width: 0;">Photo</th>
                                     <th scope="col">Fullname</th>
-                            <th scope="col">Age</th>
+                                    <th scope="col">Profession</th>
+                                    <th scope="col" class="d-none d-md-table-cell">Age</th>
+                                    <th scope="col" class="d-none d-md-table-cell">Gender</th>
+                                    <th scope="col">Status</th>
                                     <th scope="col" class="text-center" style="width: 0;">Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="peopleTable">
-                          
+                                <!-- People List -->
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
+        </div>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
@@ -171,12 +176,64 @@
                 return new Number((new Date().getTime() - new Date(birthdate).getTime()) / 31536000000).toFixed(0);
             }
         }
+        
+        // People Table View
+        let filteredPeople = people.data;
+        const renderTable = () => {
+            logger('renderTable', filteredPeople, people.data);
+            let html = "";
+            let index = 0;
 
+            if (filteredPeople.length) {
+                for (person of filteredPeople) {
+                    html += `<tr>
+                        <th scope="row">${index}</th>
+                        <td class="text-nowrap text-center">
+                            <img class="rounded-circle shadow-sm" src="${person.photo}" width="35" alt="${person.fullname} photo" />
+                        </td>
+                        <td class="text-nowrap">${person.fullname}</td>
+                        <td class="text-nowrap">${person.profession}</td>
+                        <td class="text-nowrap d-none d-md-table-cell">${person.age}</td>
+                        <td class="text-nowrap d-none d-md-table-cell">${person.gender}</td>
+                        <td class="text-nowrap">${person.status}</td>
+                        <td class="text-nowrap">
+                            <span class="d-flex">
+                                <button class="btn text-warning" onclick="setUpdatePerson(${index});">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                                <button class="btn text-danger" onclick="people.deletePerson(${index}); renderTable();">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </span>
+                        </td>
+                    </tr>`;
+                    index++;
+                }
+            } else html = "<tr><td colspan='100' class='text-center'>No Record Found!</td></tr>";
+
+            peopleTable.innerHTML = html;
+        }
+        renderTable();
+        const searchTable = () => {
+            let field = filter.value;
+            let keyword = search.value;
+            logger('searchTable', field, keyword);
+            if (keyword) {
+                filteredPeople = people.data.filter(person => {
+                    return person[field].toLowerCase().includes(keyword.toLowerCase());
+                });
+                renderTable();
+            }
+            else
+                filteredPeople = people.data;
+        }
+        
         // People Test
         if (dev) {
             logger('People: ', people.data);
             people.addPerson({ photo: "https://bams.ortadeltech.com/assets/images/profile.png", firstname: "John", middlename: "Dee", lastname: "Doe", gender: "Male", birthdate: new Date('1985-10-01').toISOString().split('T')[0], profession: "Sr. Programmer", status: "Active" })
         }
+
     </script>
 </body>
 
