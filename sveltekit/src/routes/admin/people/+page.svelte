@@ -1,5 +1,8 @@
 <script>
     import {onMount} from 'svelte';
+    import ModulePeopleFormFilters from '$lib/module/people/form/filters.svelte';
+
+    let formFilters = ["ID", "Fullname", "Age", "Gender", "Profession", "Status"];
 
     onMount(() => {
         // Setup
@@ -180,6 +183,7 @@
 
 </script>
 
+
     <!-- Content -->
     <div class="content flex-grow-1 overflow-y-auto p-3 p-md-4 px-lg-5 mx-lg-5">
         <div class="card" style="min-width: 280px;">
@@ -189,12 +193,7 @@
                 <form class="d-flex rounded-3 border overflow-hidden">
                     <select id="filter" class="form-control border-0 border-end rounded-0" style="width: 140px;">
                         <option value="">Select Filter..</option>
-                        <option value="id">ID</option>
-                        <option value="fullname" selected>Fullname</option>
-                        <option value="age">Age</option>
-                        <option value="gender">Gender</option>
-                        <option value="profession">Profession</option>
-                        <option value="status">Status</option>
+                        <ModulePeopleFormFilters filters={formFilters} seleted="Fullname"></ModulePeopleFormFilters>
                     </select>
                     <input id="search" type="search" class="form-control border-0 rounded-0" placeholder="Search"
                         oninput="searchTable()">
@@ -227,7 +226,6 @@
             </div>
         </div>
     </div>
-    
     <!-- Modals -->
     <div class="modal" id="modalAddPerson" tabindex="-1">
         <div class="modal-dialog">
