@@ -1,5 +1,5 @@
 <script>
-    import UiIcon from '$lib/component/ui/icon.svelte';
+    import UiSvg from '$lib/component/ui/svg.svelte';
     import HeaderH2 from '$lib/component/header/h2.svelte';
     // import Card from '$lib/component/card/header.svelte';
     // import CardHeader from '$lib/component/card/header.svelte';
@@ -12,7 +12,7 @@
 <Card>
     <CardHeader>
         <HeaderH2>
-            <UiIcon name="user-users"></UiIcon> People List
+            <UiSvg name="bootstrap"></UiSvg> People List
         </HeaderH2>
     </CardHeader>
     <CardBody>
