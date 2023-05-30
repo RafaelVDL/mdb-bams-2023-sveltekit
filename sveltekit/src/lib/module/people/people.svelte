@@ -13,7 +13,6 @@
     people.add({ photo: "https://bams.ortadeltech.com/assets/images/profile.png", firstname: "Jane", middlename: "Dee", lastname: "Doe", gender: "Male", birthdate: new Date('1985-10-01').toISOString().split('T')[0], profession: "Sr. Programmer", status: "Active" });
     people.update(0, { photo: "https://bams.ortadeltech.com/assets/images/profile.png", firstname: "John", middlename: "Jee", lastname: "Doe", gender: "Male", birthdate: new Date('1985-10-01').toISOString().split('T')[0], profession: "Sr. Programmer", status: "Active" });
     people.delete(1);
-    console.log('$people', $people);
 </script>
 
 <Card>
