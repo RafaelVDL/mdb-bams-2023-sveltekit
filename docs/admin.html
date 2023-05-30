@@ -287,7 +287,7 @@
         crossorigin="anonymous"></script>
     <script>
         // Setup
-        let dev = false;
+        let dev = true;
         const logger = (...params) => {
             if (dev) console.log(...params);
         }
@@ -387,6 +387,7 @@
         if (dev) {
             logger('People: ', people.data);
             people.addPerson({ photo: "https://bams.ortadeltech.com/assets/images/profile.png", firstname: "John", middlename: "Dee", lastname: "Doe", gender: "Male", birthdate: new Date('1985-10-01').toISOString().split('T')[0], profession: "Sr. Programmer", status: "Active" })
+            renderTable();
         }
 
         // Modal
