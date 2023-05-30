@@ -3,7 +3,8 @@
     import { page } from '$app/stores';
     import { auth } from '$lib/module/auth/store.js';
     import UiIcon from '$lib/component/ui/icon.svelte';
-
+    
+    let breadcrumbs = $page.route?.id.substring(1).replace(/\//g, " / ");
     const login = () => {
         auth.set({
             loggedIn: true,
@@ -38,7 +39,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <h1 class="h3 text-capitalize">{$page.route.id?.substring(1).replace("/", " / ")}</h1>
+                <h1 class="h3 text-capitalize">{breadcrumbs}</h1>
             </li>
             <li class="ms-auto nav-item dropdown">
                 {#if $auth.loggedIn}
