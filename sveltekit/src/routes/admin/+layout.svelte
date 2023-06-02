@@ -7,8 +7,10 @@
     <main class="d-flex flex-grow-1 overflow-hidden">
         <MarkupSidebar></MarkupSidebar>
         <!-- Content -->
-        <div class="content flex-grow-1 overflow-y-auto p-3 p-md-4 px-lg-5 mx-lg-5">
-            <slot />
+        <div class="content flex-grow-1 overflow-y-auto">
+            <div class="p-3 p-md-4 px-lg-5 mx-lg-5">
+                <slot />
+            </div>
         </div>
     </main>
 </div>
