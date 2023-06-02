@@ -1,21 +1,8 @@
 <script>
     import { PUBLIC_APP_NAME, PUBLIC_BARANGAY_LOGO } from "$env/static/public";
-    import { page } from '$app/stores';
     import { auth } from '$lib/module/auth/store.js';
     import UiIcon from '$lib/component/ui/icon.svelte';
-    
-    let breadcrumbs = $page.route?.id.substring(1).replace(/\//g, " / ");
-    const login = () => {
-        auth.set({
-            loggedIn: true,
-            photo: "https://bams.ortadeltech.com/assets/images/profile.png",
-            fullname: "Firstname M.I. Lastname",
-            profession: "Profession"
-        });
-    }
-    const logout = () => {
-        auth.set({});
-    }
+    import UiBreadcrumbs from '$lib/component/ui/breadcrumbs.svelte';
 </script>
 
 <header class="d-flex w-100 border-bottom py-2">
@@ -39,7 +26,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <h1 class="h3 text-capitalize">{breadcrumbs}</h1>
+                <h1 class="h3 m-0 text-capitalize"><UiBreadcrumbs></UiBreadcrumbs></h1>
             </li>
             <li class="ms-auto nav-item dropdown">
                 {#if $auth.loggedIn}
@@ -53,10 +40,10 @@
                         <li><a class="dropdown-item" href="#">Another action</a></li>
                         <li><a class="dropdown-item" href="#">Something else here</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#" on:click|preventDefault={logout}>Log-out</a></li>
+                        <li><a class="dropdown-item" href="#" on:click|preventDefault={auth.logout}>Log-out</a></li>
                     </ul>
                 {:else}
-                    <button class="btn btn-primary me-3" on:click={login}><UiIcon name="right-to-bracket" type="solid"></UiIcon> Log-in</button>
+                    <button class="btn btn-primary me-3" on:click={auth.login}><UiIcon name="right-to-bracket" type="solid"></UiIcon> Log-in</button>
                 {/if}
             </li>
             <li class="nav-item">
