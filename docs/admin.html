@@ -309,9 +309,12 @@
             if (dev) console.log(...params);
         }
 
+        // LocalStorage
+        const peopleStore = localStorage.people && JSON.parse(localStorage.people);
+
         // People Controller
         const people = {
-            data: [],
+            data: peopleStore || [],
             addPerson: (data) => {
                 logger('addPerson', data);
                 people.data.push({
@@ -326,18 +329,21 @@
                     fullname: people.getFullname(data.firstname, data.middlename, data.lastname),
                     age: people.getAge(data.birthdate)
                 });
+                localStorage.people = JSON.stringify(people.data);
             },
             updatePerson: (index, data) => {
                 logger('editPerson', index, data);
                 data.fullname = people.getFullname(data.firstname, data.middlename, data.lastname);
                 data.age = people.getAge(data.birthdate)
                 people.data[index] = data;
+                localStorage.people = JSON.stringify(people.data);
             },
             deletePerson: (index) => {
                 if (confirm('Are you sure?')) {
                     logger('deletePerson', index);
                     people.data.splice(index, 1);
                 }
+                localStorage.people = JSON.stringify(people.data);
             },
             getFullname: (firstname, middlename, lastname) => {
                 logger('getFullname', firstname, middlename, lastname);
