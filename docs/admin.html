@@ -9,8 +9,21 @@
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.css" />
     <script>
+        // Session
         let user = sessionStorage.user;
-        if(!user) window.location.pathname = "/docs/";
+        if(!user) {
+            window.location.pathname = "/docs/";
+        };
+
+        // Cookie
+        let cookieVal = {};
+        let cookie = document.cookie.split("; ").map(val => {
+            let item = val.split("=");
+            cookieVal[item[0]] = item[1];
+        });
+        let counter = parseInt(cookieVal["admin"]) || 0;
+        counter ++;
+        document.cookie = "admin=" + counter;
     </script>
 </head>
 
@@ -291,7 +304,7 @@
         crossorigin="anonymous"></script>
     <script>
         // Setup
-        let dev = true;
+        let dev = false;
         const logger = (...params) => {
             if (dev) console.log(...params);
         }
