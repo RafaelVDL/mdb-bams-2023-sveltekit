@@ -1,5 +1,9 @@
+import { get } from 'svelte/store';
 import { writable } from "svelte/store";
-const {set, update, subscribe} = writable(0);
+// set store
+let store = writable([]);
+let storeName = "people";
+const {set, update, subscribe} = store;
 
 const getFullname = (firstname, middlename, lastname) => {
     return `${firstname} ${middlename[0]}. ${lastname}`;
@@ -8,26 +12,47 @@ const getAge = (birthdate) => {
     return new Number((new Date().getTime() - new Date(birthdate).getTime()) / 31536000000).toFixed(0);
 };
 
+// check if running on client
+const isBrowser = typeof window !== 'undefined';
+
+// save data
+const saveData = (value) => {
+    if(!isBrowser) return;
+    // set localStorage
+    localStorage.setItem(storeName, JSON.stringify(value));
+    // set store
+    set(value);
+}
+
 const peopleStore = () => {
+    // get localStorage
+    isBrowser && localStorage.getItem(storeName) && set(JSON.parse(localStorage.getItem(storeName)));
+
     return {
         subscribe,
         add: (data) => {
+            const value = get(store);
             data.fullname = getFullname(data.firstname, data.middlename, data.lastname);
             data.age = getAge(data.birthdate);
-            update(val => val ? [...val, data] : [data]);
+            const newValue = [...value, data];
+            saveData(newValue);
         },
         update: (index, data) => {
+            const value = get(store);
             data.fullname = getFullname(data.firstname, data.middlename, data.lastname);
             data.age = getAge(data.birthdate);
-            update(val => val.map(function(value, idx, arr){ 
-                if (idx != index) return value;
+            const newValue = value.map(function(val, idx, arr){ 
+                if (idx != index) return val;
                 else return data;
-            }));
+            });
+            saveData(newValue);
         },
         delete: (index) => {
-            update(val => val.filter(function(value, idx, arr){ 
-                if (idx != index) return value;
-            }));
+            const value = get(store);
+            const newValue = value.filter(function(val, idx, arr){ 
+                if (idx != index) return val;
+            });
+            saveData(newValue);
         }
     }
 }
