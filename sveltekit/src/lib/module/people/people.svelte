@@ -7,11 +7,11 @@
     import ModulePeopleUiTable from '$lib/module/people/ui/table.svelte';
     import ModulePeopleFormFilters from '$lib/module/people/form/filters.svelte';
     import ModulePeopleUiModal from '$lib/module/people/ui/modal.svelte';
-    import { people } from '$lib/module/people/store.js';
+    import { people, errors, loading } from '$lib/module/people/storeAPI.js';
 
     // set default
     let modalMode, modalAdd, modalUpdate, modalDelete;
-    let data = $people, 
+    let data = $people,
         index = 0, 
         filtered = [], 
         columns = ["id", "photo", "fullname", "profession", "age", "gender", "status"];
@@ -22,25 +22,25 @@
     }
 
     // CRUD
-    let dataCrud = (payload) => {
+    let dataCrud = async (payload) => {
         // console.log('dataCrud', payload);
         switch(payload.method) {
             case 'add':
-                people.add(payload.data);
+                return await people.add(payload.data);
             break;
             case 'update':
-                people.update(payload.index, payload.data);
+                return people.update(payload.index, payload.data);
             break;
             case 'delete':
-                people.delete(payload.index);
+                return await people.delete(payload.index);
             break;
         }
     } 
 
     // Test
     if(!$people.length) {
-        people.add({ photo: "https://bams.ortadeltech.com/assets/images/profile.png", firstname: "John", middlename: "Dee", lastname: "Doe", gender: "Male", birthdate: new Date('1985-10-01').toISOString().split('T')[0], profession: "Sr. Programmer", status: "Active" });
-        people.add({ photo: "https://bams.ortadeltech.com/assets/images/profile.png", firstname: "Jane", middlename: "Dee", lastname: "Doe", gender: "Male", birthdate: new Date('1985-10-01').toISOString().split('T')[0], profession: "Sr. Programmer", status: "Active" });
+        // people.add({ photo: "https://bams.ortadeltech.com/assets/images/profile.png", firstname: "John", middlename: "Dee", lastname: "Doe", gender: "Male", birthdate: new Date('1985-10-01').toISOString().split('T')[0], profession: "Sr. Programmer", status: "Active" });
+        // people.add({ photo: "https://bams.ortadeltech.com/assets/images/profile.png", firstname: "Jane", middlename: "Dee", lastname: "Doe", gender: "Male", birthdate: new Date('1985-10-01').toISOString().split('T')[0], profession: "Sr. Programmer", status: "Active" });
         // people.update(0, { photo: "https://bams.ortadeltech.com/assets/images/profile.png", firstname: "John", middlename: "Jee", lastname: "Doe", gender: "Male", birthdate: new Date('1985-10-01').toISOString().split('T')[0], profession: "Sr. Programmer", status: "Active" });
         // people.delete(1);
     }
@@ -71,6 +71,8 @@
 
 <ModulePeopleUiModal 
     bind:data={data}
+    bind:errors={$errors}
+    bind:loading={$loading}
     bind:index={index}
     bind:dataCrud={dataCrud}
     bind:modalMode={modalMode}

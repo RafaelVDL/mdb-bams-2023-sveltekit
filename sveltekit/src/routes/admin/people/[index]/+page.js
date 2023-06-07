@@ -1,7 +1,5 @@
-import { get } from 'svelte/store';
-import { people } from '$lib/module/people/store.js';
+import { people } from '$lib/module/people/storeAPI.js';
 
 export async function load({ params }) {
-    const data = await get(people);
-    return data ? data[params.index] : {};
+    return await people.get(params.index);
 }

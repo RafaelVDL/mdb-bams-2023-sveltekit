@@ -29,7 +29,7 @@
                             </td>
                         {:else if column == 'fullname'}
                             <td class="text-nowrap">
-                                <a href="/admin/people/{person.index}">{person.fullname}</a>
+                                <a href="/admin/people/{person.id || person.index}">{person.fullname}</a>
                             </td>
                         {:else}
                             <td class={(column == 'age' || column == 'gender') ? 'text-nowrap d-none d-md-table-cell' : 'text-nowrap'} style={(column == 'photo') ? 'width: 0;' : ''}>{person[column]}</td>

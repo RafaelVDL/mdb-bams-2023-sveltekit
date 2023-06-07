@@ -8,7 +8,7 @@
 </script>
 
 <!-- Sidebar -->
-<aside id="sidebar" class="collapse collapse-horizontal show border-end h-100 overflow-hidden flex-shrink-0">
+<aside id="sidebar" class="collapse collapse-horizontal border-end h-100 overflow-hidden flex-shrink-0">
     <div class="content d-flex flex-column h-100 overflow-hidden" style="width: 280px;">
         <!-- Profile -->
         {#if $auth.loggedIn}
