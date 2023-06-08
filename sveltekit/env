@@ -1,0 +1,7 @@
+PUBLIC_APP_NAME='BAMS'
+PUBLIC_BARANGAY_NAME='Barangay Name'
+PUBLIC_BARANGAY_LOGO='https://bams.ortadeltech.com/assets/images/pdp_logo.png'
+PUBLIC_DATABASE_URL='http://127.0.0.1:8090'
+
+BASE_URL='/auth/login'
+APP_URL='/admin/people'
