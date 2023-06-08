@@ -1,28 +1,27 @@
-import { invalid, redirect } from '@sveltejs/kit';
-import { auth } from '$lib/module/auth/store.js';
+import { redirect } from '@sveltejs/kit';
+import { APP_URL } from '$env/static/private';
+
+export function load({ locals }) {
+    // check if user is logged in
+    if (locals.user) {
+        throw redirect(307, APP_URL);
+    }
+}
 
 export const actions = {
-    default: async ({ request, cookies }) => {
+    default: async ({ locals, request }) => {
         // get formData
         const formData = await request.formData();
         const email = formData.get("email");
         const password = formData.get("password");
+        
         // login
-        const login = await auth.login(email, password);
-        console.log('login', login);
-        if(login) {
-            // // set cookie
-            // let loggedIn = cookies.get('loggedIn') || 0;
-            // // set counter
-            // let counter = 1;
-            // // increment
-            // if(loggedIn) 
-            //     counter = parseInt(loggedIn) ++;
-            // // set cookie
-            // cookies.set('loggedIn', toString(counter));
+        try {
+            await locals.pb.collection('users').authWithPassword(email, password);
+        } catch (e) {
+            return {error: true, email, message: "Invalid Credentials"};
+        }
 
-            throw redirect(303, '/admin/people');
-        } else 
-            return invalid(401, {error: true, message: "Invalid Credentials"});
+        throw redirect(303, APP_URL);
     }
 }

@@ -1,6 +1,8 @@
 <script>
-    import { auth } from '$lib/module/auth/store.js';
+    import { PUBLIC_DATABASE_URL } from '$env/static/public';
+    import { auth } from '$lib/module/auth/storePB.js';
     import UiIcon from '$lib/component/ui/icon.svelte';
+    const photoUrl = PUBLIC_DATABASE_URL + `/api/files/${$auth?.collectionName}/${$auth?.id}/${$auth?.avatar}`;
     let links = [
         {title: "People", url: "./people", icon: {name: "users", type: ""}},
         {title: "Animals", url: "./animals", icon: {name: "paw", type: "solid"}}
@@ -9,14 +11,14 @@
 
 <!-- Sidebar -->
 <aside id="sidebar" class="collapse collapse-horizontal border-end h-100 overflow-hidden flex-shrink-0">
-    <div class="content d-flex flex-column h-100 overflow-hidden" style="width: 280px;">
+    <div class="content d-flex flex-column h-100 overflow-hidden" style="width: 250px;">
         <!-- Profile -->
-        {#if $auth.loggedIn}
+        {#if $auth}
             <div class="profile d-flex flex-shrink-0 align-items-center border-bottom">
-                <img class="rounded-3 m-3 shadow-sm" src={$auth.photo} width="80" alt="profile image">
+                <img class="rounded-3 m-3 shadow-sm" src={photoUrl} width="80" alt="profile image">
                 <span class="ms-2">
-                    <b class="name lead lh-sm">{$auth.fullname}</b>
-                    <p class="title m-0">{$auth.profession}</p>
+                    <b class="name lead lh-sm text-capitalize">{$auth.username}</b>
+                    <p class="title m-0 text-uppercase">{$auth.role}</p>
                 </span>
             </div>
         {/if}

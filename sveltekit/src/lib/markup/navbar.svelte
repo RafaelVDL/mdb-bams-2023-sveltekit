@@ -1,14 +1,15 @@
 <script>
-    import { PUBLIC_APP_NAME, PUBLIC_BARANGAY_LOGO } from "$env/static/public";
-    import { auth } from '$lib/module/auth/store.js';
+    import { PUBLIC_APP_NAME, PUBLIC_BARANGAY_LOGO, PUBLIC_DATABASE_URL } from "$env/static/public";
+    import { auth } from '$lib/module/auth/storePB.js';
     import UiIcon from '$lib/component/ui/icon.svelte';
     import UiBreadcrumbs from '$lib/component/ui/breadcrumbs.svelte';
+    const photoUrl = PUBLIC_DATABASE_URL + `/api/files/${$auth?.collectionName}/${$auth?.id}/${$auth?.avatar}`;
 </script>
 
 <header class="d-flex w-100 border-bottom py-2">
     <a href="/"
         class="nav-brand d-none flex-shrink-0 text-decoration-none d-flex ms-3 d-md-flex flex-column flex-md-row align-items-center"
-        style="width: 280px;">
+        style="width: 220px;">
         <img src={PUBLIC_BARANGAY_LOGO} width="75" alt="logo" />
         <span class="display-6 ps-4 text-uppercase" style="margin-top: -5px;">{PUBLIC_APP_NAME}</span>
     </a>
@@ -29,21 +30,20 @@
                 <h1 class="h3 m-0 text-capitalize"><UiBreadcrumbs></UiBreadcrumbs></h1>
             </li>
             <li class="ms-auto nav-item dropdown">
-                {#if $auth.loggedIn}
+                {#if $auth}
                     <a class="nav-link dropdown-toggle" href="#" 
                         role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img class="rounded-circle shadow-sm" src={$auth.photo}
+                        <img class="rounded-circle shadow-sm" src={photoUrl}
                             width="50" alt="profile image link">
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li><a class="dropdown-item" href="#">Account</a></li>
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#" on:click|preventDefault={auth.logout}>Log-out</a></li>
+                        <li><a class="dropdown-item" href="/auth/logout">Log-out</a></li>
                     </ul>
                 {:else}
-                    <button class="btn btn-primary me-3" on:click={auth.login}><UiIcon name="right-to-bracket" type="solid"></UiIcon> Log-in</button>
+                    <a class="btn btn-primary me-3" href="/auth/login"><UiIcon name="right-to-bracket" type="solid"></UiIcon> Log-in</a>
                 {/if}
             </li>
             <li class="nav-item">

@@ -87,33 +87,36 @@
         loading = true;
 
         // firstname validation
-        if(data.firstname.length < 3) {
-            messages.firstname = {
-                message: "Invalid!"
-            }
-        } 
+        if(data.firstname) {
+            if(data.firstname.length < 3) {
+                messages.firstname = {
+                    message: "Invalid!"
+                }
+            } 
+        }
 
         // middlename validation
-        if(data.middlename.length < 3) {
-            messages.middlename = {
-                message: "Invalid!"
-            }
+        if(data.middlename) {
+            if(data.middlename.length < 3) {
+                messages.middlename = {
+                    message: "Invalid!"
+                }
+            } 
         } 
 
         // lastname validation
-        if(data.lastname.length < 3) {
-            messages.lastname = {
-                message: "Invalid!"
-            }
+        if(data.lastname) {
+            if(data.lastname.length < 3) {
+                messages.lastname = {
+                    message: "Invalid!"
+                }
+            } 
         } 
 
         // set errors data
         // console.log('message', Object.keys(messages).length, messages);
         if(Object.keys(messages).length) errors ? errors.data = messages : errors = { data: messages };
-        else {
-            loading = false;
-            errors = false;
-        }
+        else { loading = false; errors = false; }
     }
     
     // $: previewImage(files);
