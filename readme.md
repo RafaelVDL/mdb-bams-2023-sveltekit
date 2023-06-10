@@ -20,5 +20,6 @@ ROOT
     - open provided ```http://ip:port/_/```
     - login using ```super@admin.com``` : ```superadmin123```
 - goto sveltekit directory
+    - run ```npm i``` to install node project dependencies
     - run ```npm run dev``` to start development
     - run ```npm run build``` to generate production build
