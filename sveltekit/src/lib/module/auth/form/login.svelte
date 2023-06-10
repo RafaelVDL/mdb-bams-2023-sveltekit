@@ -26,8 +26,8 @@
 <form method="POST" class="py-5" use:enhance={formEnhance}>
     <h3 class="text-uppercase">{title}</h3>
     <div class="mb-3">
-        <label for="username" class="form-label">Email:</label>
-        <input type="email" class="form-control" name="email" bind:value={email} placeholder="Type your Email">
+        <label for="username" class="form-label">Email or Username:</label>
+        <input type="text" class="form-control" name="email" bind:value={email} placeholder="Type your Email or Username">
     </div>
     <div class="mb-3">
         <label for="password" class="form-label">Password:</label>
