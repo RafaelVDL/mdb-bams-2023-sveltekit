@@ -1,6 +1,6 @@
 GIT
 	- git clone https://github.com/MarkBandilla/mdb-bams-2023-sveltekit.git
-	- select "main" branch
+	- select "master" branch
 	- git pull
 	- New branch: git checkout -b <feature/bug>/<TicketID>-<TicketSummary>
 	- Old branch: git checkout <feature/bug>/<TicketID>-<TicketSummary>
